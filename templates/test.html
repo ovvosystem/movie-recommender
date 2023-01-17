@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block head %} 
+
+    <title>Movies</title> 
+
+{% endblock %}
+
+{% block body %}
+
+    {% for title in test %}
+        <p> {{ test[loop.index0] }} </p>
+    {% endfor %}
+
+{% endblock %}

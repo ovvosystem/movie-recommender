@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block head %} 
+
+    <title>Movie Recommender</title> 
+
+{% endblock %}
+
+{% block body %}
+    <div class="centered">
+        <h1>The Movie Recommender</h1>
+        <form action="/" method="POST">
+            <div>
+                <input id="movie" autocomplete="off" name="movie" placeholder="Movie name" type="text">
+                <button type="submit">Recommend</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
