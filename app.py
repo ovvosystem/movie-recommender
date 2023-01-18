@@ -17,9 +17,11 @@ def index():
     
     if request.method == 'POST':
         movie = request.form['movie']
+        search_group = db.execute("SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4", (f'{movie}',)).fetchall()
+        temp = db.execute("SELECT title FROM movies JOIN ratings ON movies.movieId = ratings.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4", (f'{movie}',)).fetchall()
         test = db.execute("SELECT title FROM movies WHERE title LIKE ?", (f'%{movie}%',)).fetchall()
         
-        return render_template("test.html", test=test)
+        return render_template("test.html", test=temp)
         
     return render_template("index.html")
 
