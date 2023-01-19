@@ -17,9 +17,30 @@ def index():
     
     if request.method == 'POST':
         movie = request.form['movie']
-        search_group = db.execute("SELECT title FROM movies JOIN ratings ON movies.movieId = ratings.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (f'{movie}', f'{movie}',)).fetchall()
-        all_elements = pd.Series(search_group)
-        test = pd.Series(all_elements.value_counts().head().index)
+        search_titles = db.execute("SELECT title FROM movies JOIN ratings ON movies.movieId = ratings.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
+        search_ratings = db.execute("SELECT rating FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
+        
+        titles = pd.Series(search_titles)
+        ratings = pd.Series(search_ratings)
+        
+        search_group = {}
+        
+        for i in range(len(titles)):
+            if titles[i] in search_group:
+                search_group[titles[i]] += [ratings[i]]
+            else:
+                search_group[titles[i]] = [ratings[i]]
+                
+        result = {}
+                
+        for key in search_group:
+            total_ratings = db.execute("SELECT count(rating) FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4", (key,)).fetchone()
+            if total_ratings > 10:
+                group_ratings = len(search_group[key])
+                result[key] = group_ratings / total_ratings
+            
+        recommendations = pd.DataFrame(list(result.items()), columns=['title','percent'])
+        test = recommendations.sort_values(by=['percent'], ascending=False).head()
         
         return render_template("test.html", test=test)
         

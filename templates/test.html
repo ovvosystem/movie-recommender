@@ -8,8 +8,8 @@
 
 {% block body %}
 
-    {% for title in test %}
-        <p> {{ test[loop.index0] }} </p>
+    {% for index in test.index %}
+        <p> {{ test['title'][index] }} </p>
     {% endfor %}
 
 {% endblock %}
