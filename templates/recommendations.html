@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block head %} 
+
+    <title>Recommended Movies</title> 
+
+{% endblock %}
+
+{% block body %}
+
+    {% for index in recommendations.index %}
+        <p> {{ recommendations['title'][index] }} </p>
+    {% endfor %}
+
+{% endblock %}

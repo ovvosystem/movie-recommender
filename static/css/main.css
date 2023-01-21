@@ -9,3 +9,24 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.movie-search {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.autocomplete {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#results {
+    list-style-type: none;
+    padding: 0;
+}
+
+.list-items {
+    cursor: pointer;
+}

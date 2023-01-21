@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, request
 import sqlite3
 import pandas as pd
 
@@ -40,11 +40,13 @@ def index():
                 result[key] = group_ratings / total_ratings
             
         recommendations = pd.DataFrame(list(result.items()), columns=['title','percent'])
-        test = recommendations.sort_values(by=['percent'], ascending=False).head()
+        top5 = recommendations.sort_values(by=['percent'], ascending=False).head()
         
-        return render_template("test.html", test=test)
+        return render_template("recommendations.html", recommendations=top5)
+    
+    all_titles = db.execute("SELECT title FROM movies").fetchall()
         
-    return render_template("index.html")
+    return render_template("index.html", movies=all_titles)
 
 if __name__ == "__main__":
     app.run(debug=True)

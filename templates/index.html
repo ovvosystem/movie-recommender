@@ -2,16 +2,23 @@
 
 {% block head %} 
 
-    <title>Movie Recommender</title> 
+    <title>Movie Recommender</title>
+    <script type="text/javascript">
+        const movies = {{ movies | tojson }};
+    </script>
 
 {% endblock %}
 
 {% block body %}
+
     <div class="centered">
         <h1>The Movie Recommender</h1>
-        <form action="/" method="POST">
-            <div>
-                <input id="movie" autocomplete="off" name="movie" placeholder="Movie name" type="text">
+        <form action="/" autocomplete="off" method="POST">
+            <div class="movie-search">
+                <div class="autocomplete">
+                    <input id="movie" name="movie" placeholder="Movie name" type="text">
+                    <ul id="results"></ul>
+                </div>
                 <button type="submit">Recommend</button>
             </div>
         </form>
