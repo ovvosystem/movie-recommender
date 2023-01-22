@@ -9,7 +9,13 @@
 {% block body %}
 
     {% for index in recommendations.index %}
-        <p> {{ recommendations['title'][index] }} </p>
+        <p class="centered"> {{ recommendations['title'][index] }} </p>
     {% endfor %}
+
+    <footer>
+        <div class="centered">
+            <p>Data from <a href="https://movielens.org/">MovieLens.org</a></p>
+        </div>
+    </footer>
 
 {% endblock %}

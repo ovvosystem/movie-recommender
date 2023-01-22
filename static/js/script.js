@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestions = movies.filter(movie => movie.toLowerCase().includes(input.value.toLowerCase()))
         }
 
-        for (let i = 0; i < suggestions.length; i++) {
+        for (let i = 0; i < suggestions.length && i < 5; i++) {
             let listItem = document.createElement("li");
             listItem.classList.add("list-items");
             listItem.innerHTML = suggestions[i];

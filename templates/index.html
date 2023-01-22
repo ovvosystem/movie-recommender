@@ -11,17 +11,25 @@
 
 {% block body %}
 
-    <div class="centered">
-        <h1>The Movie Recommender</h1>
-        <form action="/" autocomplete="off" method="POST">
-            <div class="movie-search">
-                <div class="autocomplete">
-                    <input id="movie" name="movie" placeholder="Movie name" type="text">
-                    <ul id="results"></ul>
+    <main>
+        <div class="centered">
+            <h1>The Movie Recommender</h1>
+            <form action="/" autocomplete="off" method="POST">
+                <div class="movie-search">
+                    <div class="autocomplete">
+                        <input id="movie" name="movie" placeholder="Movie name" type="text">
+                        <ul id="results"></ul>
+                    </div>
+                    <button type="submit">Recommend</button>
                 </div>
-                <button type="submit">Recommend</button>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="centered">
+            <p>Data from <a href="https://movielens.org/">MovieLens.org</a></p>
+        </div>
+    </footer>
 
 {% endblock %}

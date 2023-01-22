@@ -1,13 +1,21 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    background-color: #262930;
+    color: white;
+    font-size: 16px;
 }
 
 .centered {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+h1 {
+    font-size: 60px;
+    padding: 8px;
+    text-align: center;
 }
 
 .movie-search {
@@ -19,14 +27,37 @@ body {
 .autocomplete {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
 }
 
 #results {
     list-style-type: none;
+    margin: 0;
     padding: 0;
 }
 
 .list-items {
     cursor: pointer;
+    background-color: #151423;
+    border-width: 1px;
+    border-color: #110f28;
+    border-style: inset;
+    padding: 2px;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    background-color: #151423;
+}
+
+footer p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
 }
