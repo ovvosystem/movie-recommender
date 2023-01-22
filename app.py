@@ -20,16 +20,13 @@ def index():
         search_titles = db.execute("SELECT title FROM movies JOIN ratings ON movies.movieId = ratings.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
         search_ratings = db.execute("SELECT rating FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
         
-        titles = pd.Series(search_titles)
-        ratings = pd.Series(search_ratings)
-        
         search_group = {}
         
-        for i in range(len(titles)):
-            if titles[i] in search_group:
-                search_group[titles[i]] += [ratings[i]]
+        for i in range(len(search_titles)):
+            if search_titles[i] in search_group:
+                search_group[search_titles[i]] += [search_ratings[i]]
             else:
-                search_group[titles[i]] = [ratings[i]]
+                search_group[search_titles[i]] = [search_ratings[i]]
                 
         result = {}
                 
