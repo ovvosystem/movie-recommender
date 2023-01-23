@@ -27,13 +27,13 @@ def index():
                 search_group[search_titles[i]] += [search_ratings[i]]
             else:
                 search_group[search_titles[i]] = [search_ratings[i]]
-                
+            
         result = {}
                 
         for key in search_group:
-            total_ratings = db.execute("SELECT count(rating) FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4", (key,)).fetchone()
+            total_ratings = db.execute("SELECT SUM(rating) FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4", (key,)).fetchone()
             if total_ratings > 10:
-                group_ratings = len(search_group[key])
+                group_ratings = sum(search_group[key])
                 result[key] = group_ratings / total_ratings
             
         recommendations = pd.DataFrame(list(result.items()), columns=['title','percent'])
