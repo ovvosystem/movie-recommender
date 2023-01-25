@@ -12,6 +12,10 @@ body {
     align-items: center;
 }
 
+.big {
+    font-size: 30px;
+}
+
 h1 {
     font-size: 60px;
     padding: 8px;

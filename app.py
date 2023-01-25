@@ -15,8 +15,14 @@ def index():
     conn = db_connection()
     db = conn.cursor()
     
+    all_titles = db.execute("SELECT title FROM movies").fetchall()
+    
     if request.method == 'POST':
         movie = request.form['movie']
+        
+        if movie not in all_titles:
+            return render_template("error.html", error="Movie Not Found")
+        
         search_titles = db.execute("SELECT title FROM movies JOIN ratings ON movies.movieId = ratings.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
         search_ratings = db.execute("SELECT rating FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE ratings.userId IN (SELECT userId FROM ratings JOIN movies ON ratings.movieId = movies.movieId WHERE movies.title = ? AND ratings.rating > 4) AND ratings.rating > 4 AND NOT movies.title = ?", (movie, movie,)).fetchall()
         
@@ -39,11 +45,12 @@ def index():
         recommendations = pd.DataFrame(list(result.items()), columns=['title','percent'])
         top5 = recommendations.sort_values(by=['percent'], ascending=False).head()
         
+        if len(top5) < 5:
+            return render_template("error.html", error="Insufficient Data")
+        
         return render_template("recommendations.html", recommendations=top5)
-    
-    all_titles = db.execute("SELECT title FROM movies").fetchall()
         
     return render_template("index.html", movies=all_titles)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
